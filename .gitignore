@@ -24,3 +24,5 @@ proguard/
 
 # Jar files
 *.jar
+
+*.DS_Store
