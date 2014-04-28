@@ -18,9 +18,9 @@ public class LoadingScreen extends Screen {
         Assets.background = g.newImage("background.png", ImageFormat.RGB565);
         Assets.background2 = g.newImage("background2.png", ImageFormat.ARGB4444);
         Assets.fBird = g.newImage("flappybird.png", ImageFormat.ARGB4444);
-        Assets.upPipe  = g.newImage("uppipe.png", ImageFormat.ARGB4444);
-        Assets.downPipe = g.newImage("downpipe.png", ImageFormat.ARGB4444);
-        Assets.button = g.newImage("button.jpg", ImageFormat.RGB565);
+        Assets.upPipe  = g.newImage("upPipe.png", ImageFormat.ARGB4444);
+        Assets.downPipe = g.newImage("downPipe.png", ImageFormat.ARGB4444);
+        //Assets.button = g.newImage("button.jpg", ImageFormat.RGB565);
 
         //This is how you would load a sound if you had one.
         //Assets.click = game.getAudio().createSound("explode.ogg");
