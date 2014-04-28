@@ -23,10 +23,14 @@ public class GameScreen extends Screen {
 	// Variable Setup
 
 	private static Background bg1, bg2;
-	private static Robot fBird;
-	public static Pipe upPipe, downPipe;
-	private Image currentSprite, fbird, upipe, dpipe;
+	private static Robot robot;
+	public static Heliboy hb, hb2;
+
+	private Image currentSprite, character, character2, character3, heliboy,
+			heliboy2, heliboy3, heliboy4, heliboy5;
 	private Animation anim, hanim;
+
+	private ArrayList tilearray = new ArrayList();
 
 	int livesLeft = 1;
 	Paint paint, paint2;
@@ -38,25 +42,39 @@ public class GameScreen extends Screen {
 
 		bg1 = new Background(0, 0);
 		bg2 = new Background(2160, 0);
-		fBird = new Robot();
-		upPipe = new Pipe('d');
-		downPipe = new Pipe('u');
+		robot = new Robot();
+		hb = new Heliboy(340, 360);
+		hb2 = new Heliboy(700, 360);
 
-		fbird = Assets.fBird;
-		upipe = Assets.upPipe;
-		dpipe = Assets.downPipe;
-		
+		character = Assets.character;
+		character2 = Assets.character2;
+		character3 = Assets.character3;
+
+		heliboy = Assets.heliboy;
+		heliboy2 = Assets.heliboy2;
+		heliboy3 = Assets.heliboy3;
+		heliboy4 = Assets.heliboy4;
+		heliboy5 = Assets.heliboy5;
+
 		anim = new Animation();
-		anim.addFrame(fbird, 1250);
-		
+		anim.addFrame(character, 1250);
+		anim.addFrame(character2, 50);
+		anim.addFrame(character3, 50);
+		anim.addFrame(character2, 50);
+
 		hanim = new Animation();
-		hanim.addFrame(upipe, 100);
-		hanim.addFrame(dpipe, 100);
-		
-		hanim.addFrame(dpipe, 100);
+		hanim.addFrame(heliboy, 100);
+		hanim.addFrame(heliboy2, 100);
+		hanim.addFrame(heliboy3, 100);
+		hanim.addFrame(heliboy4, 100);
+		hanim.addFrame(heliboy5, 100);
+		hanim.addFrame(heliboy4, 100);
+		hanim.addFrame(heliboy3, 100);
+		hanim.addFrame(heliboy2, 100);
 
 		currentSprite = anim.getImage();
 
+		loadMap();
 
 		// Defining a paint object
 		paint = new Paint();
@@ -73,7 +91,42 @@ public class GameScreen extends Screen {
 
 	}
 
-	
+	private void loadMap() {
+		ArrayList lines = new ArrayList();
+		int width = 0;
+		int height = 0;
+
+		Scanner scanner = new Scanner(SampleGame.map);
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+
+			// no more lines to read
+			if (line == null) {
+				break;
+			}
+
+			if (!line.startsWith("!")) {
+				lines.add(line);
+				width = Math.max(width, line.length());
+
+			}
+		}
+		height = lines.size();
+
+		for (int j = 0; j < 12; j++) {
+			String line = (String) lines.get(j);
+			for (int i = 0; i < width; i++) {
+
+				if (i < line.length()) {
+					char ch = line.charAt(i);
+					Tile t = new Tile(i, j, Character.getNumericValue(ch));
+					tilearray.add(t);
+				}
+
+			}
+		}
+
+	}
 
 	@Override
 	public void update(float deltaTime) {
@@ -116,35 +169,55 @@ public class GameScreen extends Screen {
 			if (event.type == TouchEvent.TOUCH_DOWN) {
 
 				if (inBounds(event, 0, 285, 65, 65)) {
-					fBird.jump();
+					robot.jump();
 					currentSprite = anim.getImage();
-					fBird.setDucked(false);
+					robot.setDucked(false);
 				}
 
 				else if (inBounds(event, 0, 350, 65, 65)) {
 
-					if (fBird.isDucked() == false && fBird.isJumped() == false
-							&& fBird.isReadyToFire()) {
-						fBird.shoot();
+					if (robot.isDucked() == false && robot.isJumped() == false
+							&& robot.isReadyToFire()) {
+						robot.shoot();
 					}
 				}
 
 				else if (inBounds(event, 0, 415, 65, 65)
-						&& fBird.isJumped() == false) {
+						&& robot.isJumped() == false) {
 					currentSprite = Assets.characterDown;
-					fBird.setDucked(true);
-					fBird.setSpeedX(0);
+					robot.setDucked(true);
+					robot.setSpeedX(0);
 
 				}
 
 				if (event.x > 400) {
 					// Move right.
-					fBird.moveRight();
-					fBird.setMovingRight(true);
+					robot.moveRight();
+					robot.setMovingRight(true);
 
 				}
 
 			}
+
+			if (event.type == TouchEvent.TOUCH_UP) {
+
+				if (inBounds(event, 0, 415, 65, 65)) {
+					currentSprite = anim.getImage();
+					robot.setDucked(false);
+
+				}
+
+				if (inBounds(event, 0, 0, 35, 35)) {
+					pause();
+
+				}
+
+				if (event.x > 400) {
+					// Move right.
+					robot.stopRight();
+				}
+			}
+
 		}
 
 		// 2. Check miscellaneous events like death:
@@ -156,20 +229,31 @@ public class GameScreen extends Screen {
 		// 3. Call individual update() methods here.
 		// This is where all the game updates happen.
 		// For example, robot.update();
-		fBird.update();
-		if (fBird.isJumped()) {
+		robot.update();
+		if (robot.isJumped()) {
 			currentSprite = Assets.characterJump;
-		} else if (fBird.isJumped() == false && fBird.isDucked() == false) {
+		} else if (robot.isJumped() == false && robot.isDucked() == false) {
 			currentSprite = anim.getImage();
 		}
 
-		upPipe.update();
-		downPipe.update();
+		ArrayList projectiles = robot.getProjectiles();
+		for (int i = 0; i < projectiles.size(); i++) {
+			Projectile p = (Projectile) projectiles.get(i);
+			if (p.isVisible() == true) {
+				p.update();
+			} else {
+				projectiles.remove(i);
+			}
+		}
+
+		updateTiles();
+		hb.update();
+		hb2.update();
 		bg1.update();
 		bg2.update();
 		animate();
 
-		if (fBird.getCenterY() > 500) {
+		if (robot.getCenterY() > 500) {
 			state = GameState.GameOver;
 		}
 	}
@@ -186,7 +270,7 @@ public class GameScreen extends Screen {
 	private void updatePaused(List touchEvents) {
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
-			TouchEvent event = (TouchEvent) touchEvents.get(i);
+			TouchEvent event = touchEvents.get(i);
 			if (event.type == TouchEvent.TOUCH_UP) {
 				if (inBounds(event, 0, 0, 800, 240)) {
 
@@ -206,7 +290,7 @@ public class GameScreen extends Screen {
 	private void updateGameOver(List touchEvents) {
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
-			TouchEvent event = (TouchEvent) touchEvents.get(i);
+			TouchEvent event = touchEvents.get(i);
 			if (event.type == TouchEvent.TOUCH_DOWN) {
 				if (inBounds(event, 0, 0, 800, 480)) {
 					nullify();
@@ -218,6 +302,14 @@ public class GameScreen extends Screen {
 
 	}
 
+	private void updateTiles() {
+
+		for (int i = 0; i < tilearray.size(); i++) {
+			Tile t = (Tile) tilearray.get(i);
+			t.update();
+		}
+
+	}
 
 	@Override
 	public void paint(float deltaTime) {
@@ -225,15 +317,21 @@ public class GameScreen extends Screen {
 
 		g.drawImage(Assets.background, bg1.getBgX(), bg1.getBgY());
 		g.drawImage(Assets.background, bg2.getBgX(), bg2.getBgY());
+		paintTiles(g);
 
+		ArrayList projectiles = robot.getProjectiles();
+		for (int i = 0; i < projectiles.size(); i++) {
+			Projectile p = (Projectile) projectiles.get(i);
+			g.drawRect(p.getX(), p.getY(), 10, 5, Color.YELLOW);
+		}
 		// First draw the game elements.
 
-		g.drawImage(currentSprite, fBird.getCenterX() - 61,
-				fBird.getCenterY() - 63);
-		g.drawImage(hanim.getImage(), upPipe.getCenterX() - 48,
-				upPipe.getCenterY() - 48);
-		g.drawImage(hanim.getImage(), downPipe.getCenterX() - 48,
-				downPipe.getCenterY() - 48);
+		g.drawImage(currentSprite, robot.getCenterX() - 61,
+				robot.getCenterY() - 63);
+		g.drawImage(hanim.getImage(), hb.getCenterX() - 48,
+				hb.getCenterY() - 48);
+		g.drawImage(hanim.getImage(), hb2.getCenterX() - 48,
+				hb2.getCenterY() - 48);
 
 		// Example:
 		// g.drawImage(Assets.background, 0, 0);
@@ -251,6 +349,14 @@ public class GameScreen extends Screen {
 
 	}
 
+	private void paintTiles(Graphics g) {
+		for (int i = 0; i < tilearray.size(); i++) {
+			Tile t = (Tile) tilearray.get(i);
+			if (t.type != 0) {
+				g.drawImage(t.getTileImage(), t.getTileX(), t.getTileY());
+			}
+		}
+	}
 
 	public void animate() {
 		anim.update(10);
@@ -264,13 +370,18 @@ public class GameScreen extends Screen {
 		paint = null;
 		bg1 = null;
 		bg2 = null;
-		fBird = null;
-		upPipe = null;
-		downPipe = null;
+		robot = null;
+		hb = null;
+		hb2 = null;
 		currentSprite = null;
-		fbird = null;
-		upipe = null;
-		dpipe = null;
+		character = null;
+		character2 = null;
+		character3 = null;
+		heliboy = null;
+		heliboy2 = null;
+		heliboy3 = null;
+		heliboy4 = null;
+		heliboy5 = null;
 		anim = null;
 		hanim = null;
 
@@ -352,9 +463,9 @@ public class GameScreen extends Screen {
 		return bg2;
 	}
 
-	public static Robot getBird() {
+	public static Robot getRobot() {
 		// TODO Auto-generated method stub
-		return fBird;
+		return robot;
 	}
 
 }
