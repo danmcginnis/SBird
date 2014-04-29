@@ -29,6 +29,7 @@ public class GameScreen extends Screen {
 	private Animation anim;
 
 	public static int score = 0;
+	public String scoreString = "";
 	private boolean gameOver;
 
 	Paint littleText, bigText, scoreBoard;
@@ -246,6 +247,7 @@ public class GameScreen extends Screen {
 		Graphics g = game.getGraphics();
 		g.drawRect(0, 0, 490, 810, Color.BLACK);
 		g.drawString("GAME OVER", 240, 250, bigText);
+		g.drawString("Final Score: " + scoreString.valueOf(score), 240, 350, littleText);
 		g.drawString("Tap to return", 240, 450, littleText);
 
 	}
