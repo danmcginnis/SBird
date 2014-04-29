@@ -56,7 +56,7 @@ public class GameScreen extends Screen {
 		paint.setColor(Color.WHITE);
 
 		paint2 = new Paint();
-		paint2.setTextSize(100);
+		paint2.setTextSize(70);
 		paint2.setTextAlign(Paint.Align.CENTER);
 		paint2.setAntiAlias(true);
 		paint2.setColor(Color.WHITE);
@@ -179,9 +179,8 @@ public class GameScreen extends Screen {
 
 	private void drawReadyUI() {
 		Graphics g = game.getGraphics();
-
 		g.drawARGB(155, 0, 0, 0);
-		g.drawString("Tap to Start", 240, 400, paint);
+		g.drawString("Tap to Start", 240, 400, paint2);
 
 	}
 
@@ -200,8 +199,8 @@ public class GameScreen extends Screen {
 
 	private void drawGameOverUI() {
 		Graphics g = game.getGraphics();
-		g.drawRect(0, 0, 1281, 801, Color.BLACK);
-		g.drawString("GAME OVER", 240, 400, paint2);
+		g.drawRect(0, 0, 490, 810, Color.BLACK);
+		g.drawString("GAME OVER", 200, 400, paint2);
 		g.drawString("Tap to return.", 260, 400, paint);
 
 	}
