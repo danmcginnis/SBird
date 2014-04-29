@@ -42,10 +42,9 @@ public class GameScreen extends Screen {
 		robot = new Robot();
 
 		bird = Assets.fBird;
-	
+
 		anim = new Animation();
 		anim.addFrame(bird, 1550);
-		
 
 		currentSprite = anim.getImage();
 
@@ -77,8 +76,6 @@ public class GameScreen extends Screen {
 			updateReady(touchEvents);
 		if (state == GameState.Running)
 			updateRunning(touchEvents, deltaTime);
-		if (state == GameState.Paused)
-			updatePaused(touchEvents);
 		if (state == GameState.GameOver)
 			updateGameOver(touchEvents);
 	}
@@ -96,133 +93,40 @@ public class GameScreen extends Screen {
 
 	private void updateRunning(List touchEvents, float deltaTime) {
 
-		// This is identical to the update() method from our Unit 2/3 game.
+		// Handle touch event input. As most devices only have soft keyboards
+		// which
+		// would not be displayed during game play there is no need to a
+		// keyListener to be implemented here, but if you wished to add one,
+		// this
+		// would be the appropriate place.
 
-		// 1. All touch input is handled here:
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
-			TouchEvent event = (TouchEvent) touchEvents.get(i);
 			robot.jump();
 			currentSprite = anim.getImage();
-//			if (event.type == TouchEvent.TOUCH_DOWN) {
-//
-//				if (inBounds(event, 0, 285, 65, 65)) {
-//					robot.jump();
-//					currentSprite = anim.getImage();
-//					robot.setDucked(false);
-//				}
-//
-//				else if (inBounds(event, 0, 350, 65, 65)) {
-//
-//					if (robot.isDucked() == false && robot.isJumped() == false
-//							&& robot.isReadyToFire()) {
-//						robot.shoot();
-//					}
-//				}
-//
-//				else if (inBounds(event, 0, 415, 65, 65)
-//						&& robot.isJumped() == false) {
-//					currentSprite = Assets.characterDown;
-//					robot.setDucked(true);
-//					robot.setSpeedX(0);
-//
-//				}
-//
-//				if (event.x > 400) {
-//					// Move right.
-//					robot.moveRight();
-//					robot.setMovingRight(true);
-//
-//				}
-//
-//			}
-//
-//			if (event.type == TouchEvent.TOUCH_UP) {
-//
-//				if (inBounds(event, 0, 415, 65, 65)) {
-//					currentSprite = anim.getImage();
-//					robot.setDucked(false);
-//
-//				}
-//
-//				if (inBounds(event, 0, 0, 35, 35)) {
-//					pause();
-//
-//				}
-//
-//				if (event.x > 400) {
-//					// Move right.
-//					robot.stopRight();
-//				}
-//			}
-
 		}
-
-		// 2. Check miscellaneous events like death:
 
 		if (gameOver == true) {
 			state = GameState.GameOver;
 		}
 
-		// 3. Call individual update() methods here.
-		// This is where all the game updates happen.
-		// For example, robot.update();
 		robot.update();
-//		if (robot.isJumped()) {
-//			currentSprite = Assets.characterJump;
-//		} else if (robot.isJumped() == false && robot.isDucked() == false) {
-//			currentSprite = anim.getImage();
-//		}
 
 		bg1.update();
 		bg2.update();
 		animate();
 
-		if (robot.getCenterY() > 500) {
+		if (robot.getCenterY() > 800) {
 			state = GameState.GameOver;
-		}
-	}
-
-	private boolean inBounds(TouchEvent event, int x, int y, int width,
-			int height) {
-		if (event.x > x && event.x < x + width - 1 && event.y > y
-				&& event.y < y + height - 1)
-			return true;
-		else
-			return false;
-	}
-
-	private void updatePaused(List touchEvents) {
-		int len = touchEvents.size();
-		for (int i = 0; i < len; i++) {
-			TouchEvent event = (TouchEvent) touchEvents.get(i);
-			if (event.type == TouchEvent.TOUCH_UP) {
-				if (inBounds(event, 0, 0, 800, 240)) {
-
-					if (!inBounds(event, 0, 0, 35, 35)) {
-						resume();
-					}
-				}
-
-				if (inBounds(event, 0, 240, 800, 240)) {
-					nullify();
-					goToMenu();
-				}
-			}
 		}
 	}
 
 	private void updateGameOver(List touchEvents) {
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
-			TouchEvent event = (TouchEvent) touchEvents.get(i);
-			if (event.type == TouchEvent.TOUCH_DOWN) {
-				if (inBounds(event, 0, 0, 800, 480)) {
-					nullify();
-					game.setScreen(new MainMenuScreen(game));
-					return;
-				}
-			}
+			nullify();
+			game.setScreen(new MainMenuScreen(game));
+			return;
 		}
 
 	}
@@ -233,9 +137,6 @@ public class GameScreen extends Screen {
 
 		g.drawImage(Assets.background, bg1.getBgX(), bg1.getBgY());
 		g.drawImage(Assets.background, bg2.getBgX(), bg2.getBgY());
-
-		// First draw the game elements.
-
 		g.drawImage(currentSprite, robot.getCenterX() - 61,
 				robot.getCenterY() - 63);
 
@@ -261,8 +162,8 @@ public class GameScreen extends Screen {
 
 	private void nullify() {
 
-		// Set all variables to null. You will be recreating them in the
-		// constructor.
+		// Set all variables to null. 
+		// Not sure if this is necessary since the GC is called next.
 		paint = null;
 		bg1 = null;
 		bg2 = null;
@@ -280,17 +181,12 @@ public class GameScreen extends Screen {
 		Graphics g = game.getGraphics();
 
 		g.drawARGB(155, 0, 0, 0);
-		g.drawString("Tap to Start.", 400, 240, paint);
+		g.drawString("Tap to Start", 240, 400, paint);
 
 	}
 
 	private void drawRunningUI() {
 		Graphics g = game.getGraphics();
-		//g.drawImage(Assets.button, 0, 285, 0, 0, 65, 65);
-		//g.drawImage(Assets.button, 0, 350, 0, 65, 65, 65);
-		//g.drawImage(Assets.button, 0, 415, 0, 130, 65, 65);
-		//g.drawImage(Assets.button, 0, 0, 0, 195, 35, 35);
-
 	}
 
 	private void drawPausedUI() {
@@ -305,8 +201,8 @@ public class GameScreen extends Screen {
 	private void drawGameOverUI() {
 		Graphics g = game.getGraphics();
 		g.drawRect(0, 0, 1281, 801, Color.BLACK);
-		g.drawString("GAME OVER.", 400, 240, paint2);
-		g.drawString("Tap to return.", 400, 290, paint);
+		g.drawString("GAME OVER", 240, 400, paint2);
+		g.drawString("Tap to return.", 260, 400, paint);
 
 	}
 
