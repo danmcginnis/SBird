@@ -1,4 +1,5 @@
 package com.cis4350.framework.implementation;
+
 import android.graphics.Bitmap;
 
 import com.cis4350.framework.Image;

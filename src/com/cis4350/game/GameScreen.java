@@ -41,8 +41,7 @@ public class GameScreen extends Screen {
 		robot = new Robot();
 
 		bird = Assets.fBird;
-		
-
+	
 		anim = new Animation();
 		anim.addFrame(bird, 1250);
 		
