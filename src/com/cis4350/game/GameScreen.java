@@ -117,7 +117,7 @@ public class GameScreen extends Screen {
 		animate();
 
 		if (robot.getCenterY() > 800) {
-			state = GameState.GameOver;
+			gameOver = true;
 		}
 	}
 
@@ -137,7 +137,7 @@ public class GameScreen extends Screen {
 
 		g.drawImage(Assets.background, bg1.getBgX(), bg1.getBgY());
 		g.drawImage(Assets.background, bg2.getBgX(), bg2.getBgY());
-		g.drawImage(currentSprite, robot.getCenterX() - 61,
+		g.drawImage(currentSprite, robot.getCenterX(),
 				robot.getCenterY() - 63);
 
 		// Example:
