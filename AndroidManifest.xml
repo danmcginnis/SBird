@@ -12,9 +12,9 @@
         android:targetSdkVersion="19" />
 
     <application
+        android:allowBackup="false"
         android:icon="@drawable/icon"
-        android:label="ShakyBird" 
-        android:allowBackup="false">
+        android:label="ShakyBird" >
         <activity
             android:name=".SampleGame"
             android:configChanges="keyboard|keyboardHidden|orientation"
@@ -27,4 +27,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

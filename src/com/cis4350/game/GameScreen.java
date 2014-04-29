@@ -101,6 +101,7 @@ public class GameScreen extends Screen {
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
 			TouchEvent event = (TouchEvent) touchEvents.get(i);
+			robot.jump();
 			currentSprite = anim.getImage();
 //			if (event.type == TouchEvent.TOUCH_DOWN) {
 //
