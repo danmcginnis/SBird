@@ -31,7 +31,7 @@ public class GameScreen extends Screen {
 	public static int score = 0;
 	private boolean gameOver;
 
-	Paint paint, paint2;
+	Paint littleText, bigText;
 
 	public GameScreen(Game game) {
 		super(game);
@@ -63,17 +63,17 @@ public class GameScreen extends Screen {
 		pipes.add(new Pipe('u',y1,1300));
 		
 		// Defining a paint object
-		paint = new Paint();
-		paint.setTextSize(30);
-		paint.setTextAlign(Paint.Align.CENTER);
-		paint.setAntiAlias(true);
-		paint.setColor(Color.WHITE);
+		littleText = new Paint();
+		littleText.setTextSize(30);
+		littleText.setTextAlign(Paint.Align.CENTER);
+		littleText.setAntiAlias(true);
+		littleText.setColor(Color.WHITE);
 
-		paint2 = new Paint();
-		paint2.setTextSize(100);
-		paint2.setTextAlign(Paint.Align.CENTER);
-		paint2.setAntiAlias(true);
-		paint2.setColor(Color.WHITE);
+		bigText = new Paint();
+		bigText.setTextSize(70);
+		bigText.setTextAlign(Paint.Align.CENTER);
+		bigText.setAntiAlias(true);
+		bigText.setColor(Color.WHITE);
 
 	}
 
@@ -144,7 +144,7 @@ public class GameScreen extends Screen {
 		animate();
 
 		if (robot.getCenterY() > 800) {
-			state = GameState.GameOver;
+			gameOver = true;
 		}
 	}
 
@@ -164,7 +164,7 @@ public class GameScreen extends Screen {
 
 		g.drawImage(Assets.background, bg1.getBgX(), bg1.getBgY());
 		g.drawImage(Assets.background, bg2.getBgX(), bg2.getBgY());
-		g.drawImage(currentSprite, robot.getCenterX() - 61,
+		g.drawImage(currentSprite, robot.getCenterX(),
 				robot.getCenterY() - 63);
 		for (int pcount=0;pcount<pipes.size();pcount++){
 			Pipe p = pipes.get(pcount);
@@ -201,7 +201,7 @@ public class GameScreen extends Screen {
 
 		// Set all variables to null. 
 		// Not sure if this is necessary since the GC is called next.
-		paint = null;
+		littleText = null;
 		bg1 = null;
 		bg2 = null;
 		robot = null;
@@ -216,9 +216,8 @@ public class GameScreen extends Screen {
 
 	private void drawReadyUI() {
 		Graphics g = game.getGraphics();
-
 		g.drawARGB(155, 0, 0, 0);
-		g.drawString("Tap to Start", 240, 400, paint);
+		g.drawString("Tap to Start", 240, 400, bigText);
 
 	}
 
@@ -230,16 +229,16 @@ public class GameScreen extends Screen {
 		Graphics g = game.getGraphics();
 		// Darken the entire screen so you can display the Paused screen.
 		g.drawARGB(155, 0, 0, 0);
-		g.drawString("Resume", 400, 165, paint2);
-		g.drawString("Menu", 400, 360, paint2);
+		g.drawString("Resume", 400, 165, bigText);
+		g.drawString("Menu", 400, 360, bigText);
 
 	}
 
 	private void drawGameOverUI() {
 		Graphics g = game.getGraphics();
-		g.drawRect(0, 0, 1281, 801, Color.BLACK);
-		g.drawString("GAME OVER", 240, 400, paint2);
-		g.drawString("Tap to return.", 260, 400, paint);
+		g.drawRect(0, 0, 490, 810, Color.BLACK);
+		g.drawString("GAME OVER", 200, 400, bigText);
+		g.drawString("Tap to return.", 260, 400, littleText);
 
 	}
 
