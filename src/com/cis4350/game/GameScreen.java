@@ -116,7 +116,9 @@ public class GameScreen extends Screen {
 		bg2.update();
 		animate();
 
-		if (robot.getCenterY() > 800) {
+		if (robot.getCenterY() > 850) {
+			//let the bird completely did below the horizon before 
+			// ending the game.
 			gameOver = true;
 		}
 	}
@@ -180,7 +182,7 @@ public class GameScreen extends Screen {
 	private void drawReadyUI() {
 		Graphics g = game.getGraphics();
 		g.drawARGB(155, 0, 0, 0);
-		g.drawString("Tap to Start", 240, 400, bigText);
+		g.drawString("Tap to Start", 240, 420, bigText);
 
 	}
 
@@ -200,8 +202,8 @@ public class GameScreen extends Screen {
 	private void drawGameOverUI() {
 		Graphics g = game.getGraphics();
 		g.drawRect(0, 0, 490, 810, Color.BLACK);
-		g.drawString("GAME OVER", 200, 400, bigText);
-		g.drawString("Tap to return.", 260, 400, littleText);
+		g.drawString("GAME OVER", 240, 250, bigText);
+		g.drawString("Tap to return", 240, 450, littleText);
 
 	}
 
