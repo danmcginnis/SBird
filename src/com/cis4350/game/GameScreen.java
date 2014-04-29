@@ -12,6 +12,7 @@ import com.cis4350.framework.Graphics;
 import com.cis4350.framework.Image;
 import com.cis4350.framework.Input.TouchEvent;
 import com.cis4350.framework.Screen;
+import android.app.Activity;
 
 public class GameScreen extends Screen {
 	enum GameState {
