@@ -31,7 +31,7 @@ public class GameScreen extends Screen {
 	public static int score = 0;
 	private boolean gameOver;
 
-	Paint littleText, bigText;
+	Paint littleText, bigText, scoreBoard;
 
 	public GameScreen(Game game) {
 		super(game);
@@ -74,6 +74,12 @@ public class GameScreen extends Screen {
 		bigText.setTextAlign(Paint.Align.CENTER);
 		bigText.setAntiAlias(true);
 		bigText.setColor(Color.WHITE);
+		
+		scoreBoard = new Paint();
+		scoreBoard.setTextSize(30);
+		scoreBoard.setTextAlign(Paint.Align.CENTER);
+		scoreBoard.setAntiAlias(true);
+		scoreBoard.setColor(Color.WHITE);
 
 	}
 
