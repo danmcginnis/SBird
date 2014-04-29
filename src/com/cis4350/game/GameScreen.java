@@ -12,6 +12,7 @@ import com.cis4350.framework.Graphics;
 import com.cis4350.framework.Image;
 import com.cis4350.framework.Input.TouchEvent;
 import com.cis4350.framework.Screen;
+
 import android.app.Activity;
 
 public class GameScreen extends Screen {
@@ -23,8 +24,8 @@ public class GameScreen extends Screen {
 
 	private static Background bg1, bg2;
 	private static Robot robot;
-
-	private Image currentSprite, bird;
+	ArrayList <Pipe> pipes;
+	private Image currentSprite, bird, upPipe, downPipe;
 	private Animation anim;
 
 	public static int score = 0;
@@ -36,18 +37,31 @@ public class GameScreen extends Screen {
 		super(game);
 
 		// Initialize game objects here
+		pipes = new ArrayList<Pipe>();
 		gameOver = false;
 		bg1 = new Background(0, 0);
 		bg2 = new Background(2160, 0);
 		robot = new Robot();
 
 		bird = Assets.fBird;
-
+		upPipe=Assets.upPipe;
+		downPipe=Assets.downPipe;
 		anim = new Animation();
 		anim.addFrame(bird, 1550);
 
 		currentSprite = anim.getImage();
 
+		
+		int y1=(int)(Math.random()*(-450))-300;
+		pipes.add(new Pipe('d',y1,500));
+		pipes.add(new Pipe('u',y1,500));
+		y1=(int)(Math.random()*(-450))-300;
+		pipes.add(new Pipe('d',y1,900));
+		pipes.add(new Pipe('u',y1,900));
+		y1=(int)(Math.random()*(-450))-300;
+		pipes.add(new Pipe('d',y1,1300));
+		pipes.add(new Pipe('u',y1,1300));
+		
 		// Defining a paint object
 		littleText = new Paint();
 		littleText.setTextSize(30);
@@ -114,6 +128,19 @@ public class GameScreen extends Screen {
 
 		bg1.update();
 		bg2.update();
+		int y1=0;
+		for (int pcount=0;pcount<pipes.size();pcount++){
+			Pipe p=pipes.get(pcount);
+			p.update();
+			if (p.getX()<=-300){
+				if (p.getOrientation()=='d'){
+					y1=(int)(Math.random()*(-450))-300;
+					pipes.set(pcount, new Pipe('d',y1,900));
+				}else{
+					pipes.set(pcount, new Pipe ('u',y1,900));
+				}
+			}
+		}
 		animate();
 
 		if (robot.getCenterY() > 850) {
@@ -141,6 +168,16 @@ public class GameScreen extends Screen {
 		g.drawImage(Assets.background, bg2.getBgX(), bg2.getBgY());
 		g.drawImage(currentSprite, robot.getCenterX(),
 				robot.getCenterY() - 63);
+		for (int pcount=0;pcount<pipes.size();pcount++){
+			Pipe p = pipes.get(pcount);
+			char o = p.getOrientation();
+			if (o=='d'){
+				g.drawImage(downPipe,p.getX(),p.getY());
+			}else{
+				g.drawImage(upPipe,(int)(p.getBoundingBox().centerX()-p.getBoundingBox().width()/2),(int)(p.getBoundingBox().centerY()-p.getBoundingBox().width()/2));
+			}
+			
+		}
 
 		// Example:
 		// g.drawImage(Assets.background, 0, 0);
