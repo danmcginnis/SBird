@@ -43,7 +43,7 @@ public class GameScreen extends Screen {
 		bird = Assets.fBird;
 	
 		anim = new Animation();
-		anim.addFrame(bird, 1250);
+		anim.addFrame(bird, 1550);
 		
 
 		currentSprite = anim.getImage();
