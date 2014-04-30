@@ -127,6 +127,11 @@ public class GameScreen extends Screen {
 			robot.jump();
 			currentSprite = anim.getImage();
 		}
+		
+		if (SensorData.isMoving()) {
+			robot.jump();
+			currentSprite = anim.getImage();
+		}
 
 		if (gameOver == true) {
 			state = GameState.GameOver;
