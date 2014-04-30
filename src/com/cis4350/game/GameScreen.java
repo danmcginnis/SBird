@@ -30,9 +30,10 @@ public class GameScreen extends Screen {
 	private Animation anim;
 	private Rect robotBox;
 	public static int score = 0;
+	public String scoreString = "";
 	private boolean gameOver;
 
-	Paint littleText, bigText;
+	Paint littleText, bigText, scoreBoard;
 
 	public GameScreen(Game game) {
 		super(game);
@@ -75,6 +76,12 @@ public class GameScreen extends Screen {
 		bigText.setTextAlign(Paint.Align.CENTER);
 		bigText.setAntiAlias(true);
 		bigText.setColor(Color.WHITE);
+		
+		scoreBoard = new Paint();
+		scoreBoard.setTextSize(30);
+		scoreBoard.setTextAlign(Paint.Align.CENTER);
+		scoreBoard.setAntiAlias(true);
+		scoreBoard.setColor(Color.WHITE);
 
 	}
 
@@ -151,7 +158,9 @@ public class GameScreen extends Screen {
 		}
 		animate();
 
-		if (robot.getCenterY() > 800) {
+		if (robot.getCenterY() > 850) {
+			//let the bird completely did below the horizon before 
+			// ending the game.
 			gameOver = true;
 		}
 	}
@@ -227,7 +236,7 @@ public class GameScreen extends Screen {
 	private void drawReadyUI() {
 		Graphics g = game.getGraphics();
 		g.drawARGB(155, 0, 0, 0);
-		g.drawString("Tap to Start", 240, 400, bigText);
+		g.drawString("Tap to Start", 240, 420, bigText);
 
 	}
 
@@ -247,8 +256,9 @@ public class GameScreen extends Screen {
 	private void drawGameOverUI() {
 		Graphics g = game.getGraphics();
 		g.drawRect(0, 0, 490, 810, Color.BLACK);
-		g.drawString("GAME OVER", 200, 400, bigText);
-		g.drawString("Tap to return.", 260, 400, littleText);
+		g.drawString("GAME OVER", 240, 250, bigText);
+		g.drawString("Final Score: " + scoreString.valueOf(score), 240, 350, littleText);
+		g.drawString("Tap to return", 240, 450, littleText);
 
 	}
 
