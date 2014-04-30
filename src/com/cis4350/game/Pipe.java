@@ -5,7 +5,6 @@ import android.graphics.Rect;
 
 public class Pipe {
 	private char orientation;
-	private int height;
 	private int x = 500;
 	private int y;
 	private int speedX = -5;
@@ -15,9 +14,9 @@ public class Pipe {
 		orientation = ori;
 		y = yVal;
 		if (orientation == 'd') {
-			boundingBox.set(x, y, 120, 800);
+			boundingBox.set(x, y, x+120, y+800);
 		} else {
-			boundingBox.set(x, y + 1000, 120, 800);
+			boundingBox.set(x, y + 1000, x+120, y+1800);
 		}
 	}
 
@@ -26,9 +25,9 @@ public class Pipe {
 		y = yVal;
 		x = xVal;
 		if (orientation == 'd') {
-			boundingBox.set(x, y, 120, 800);
+			boundingBox.set(x, y, x+120, y+800);
 		} else {
-			boundingBox.set(x, y + 1000, 120, 800);
+			boundingBox.set(x, y + 1000, x+120, y+1800);
 		}
 	}
 
@@ -39,9 +38,9 @@ public class Pipe {
 	public void update() {
 		x += speedX;
 		if (orientation == 'd') {
-			boundingBox.set(x, y, 120, 800);
+			boundingBox.set(x, y, x+120, y+800);
 		} else {
-			boundingBox.set(x, y + 1000, 120, 800);
+			boundingBox.set(x, y + 1000, x+120, y+1800);
 		}
 
 	}

@@ -29,7 +29,7 @@ public class Robot {
 
 		// Prevents going beyond X coordinate of 0
 
-		boundingBox.set(centerX - 61, centerY - 62, 51, 34);
+		boundingBox.set(centerX - 25, centerY - 17, centerX + 25, centerY + 17);
 	}
 
 	private void stop() {

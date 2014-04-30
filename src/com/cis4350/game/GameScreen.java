@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import android.graphics.Rect;
 import android.graphics.Color;
 import android.graphics.Paint;
 
@@ -27,7 +28,7 @@ public class GameScreen extends Screen {
 	ArrayList <Pipe> pipes;
 	private Image currentSprite, bird, upPipe, downPipe;
 	private Animation anim;
-
+	private Rect robotBox;
 	public static int score = 0;
 	private boolean gameOver;
 
@@ -141,6 +142,13 @@ public class GameScreen extends Screen {
 				}
 			}
 		}
+		robotBox= robot.getBoundingBox();
+		for (int pcount=0;pcount<pipes.size();pcount++){
+			
+			if (Rect.intersects(robotBox, pipes.get(pcount).getBoundingBox())){
+				state=GameState.GameOver;
+			}
+		}
 		animate();
 
 		if (robot.getCenterY() > 800) {
@@ -164,15 +172,17 @@ public class GameScreen extends Screen {
 
 		g.drawImage(Assets.background, bg1.getBgX(), bg1.getBgY());
 		g.drawImage(Assets.background, bg2.getBgX(), bg2.getBgY());
-		g.drawImage(currentSprite, robot.getCenterX(),
-				robot.getCenterY() - 63);
+		g.drawImage(currentSprite, robot.getCenterX()-26,
+				robot.getCenterY() - 17);
+		//g.drawRect(robot.getBoundingBox().left,robot.getBoundingBox().top
+				//,robot.getBoundingBox().right,robot.getBoundingBox().bottom,Color.WHITE);
 		for (int pcount=0;pcount<pipes.size();pcount++){
 			Pipe p = pipes.get(pcount);
 			char o = p.getOrientation();
 			if (o=='d'){
 				g.drawImage(downPipe,p.getX(),p.getY());
 			}else{
-				g.drawImage(upPipe,(int)(p.getBoundingBox().centerX()-p.getBoundingBox().width()/2),(int)(p.getBoundingBox().centerY()-p.getBoundingBox().width()/2));
+				g.drawImage(upPipe,(int)(p.getBoundingBox().centerX()-p.getBoundingBox().width()/2),(int)(p.getBoundingBox().centerY()-p.getBoundingBox().height()/2));
 			}
 			
 		}
