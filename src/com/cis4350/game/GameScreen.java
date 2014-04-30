@@ -44,7 +44,7 @@ public class GameScreen extends Screen {
 		bg1 = new Background(0, 0);
 		bg2 = new Background(2160, 0);
 		robot = new Robot();
-
+		score=0;
 		bird = Assets.fBird;
 		upPipe=Assets.upPipe;
 		downPipe=Assets.downPipe;
@@ -148,7 +148,11 @@ public class GameScreen extends Screen {
 					pipes.set(pcount, new Pipe ('u',y1,900));
 				}
 			}
+			if (p.getX()==50&&p.getOrientation()=='d'){
+				score++;
+			}
 		}
+		
 		robotBox= robot.getBoundingBox();
 		for (int pcount=0;pcount<pipes.size();pcount++){
 			
