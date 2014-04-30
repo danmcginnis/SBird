@@ -162,7 +162,7 @@ public class GameScreen extends Screen {
 		for (int pcount=0;pcount<pipes.size();pcount++){
 			
 			if (Rect.intersects(robotBox, pipes.get(pcount).getBoundingBox())){
-				state=GameState.GameOver;
+				gameOver = true;
 			}
 		}
 		animate();

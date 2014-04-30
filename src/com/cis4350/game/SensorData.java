@@ -16,7 +16,7 @@ public class SensorData extends Activity implements SensorEventListener {
 	private float moveX, moveY, moveZ = 0.0f;
 	private float lastX, lastY, lastZ;
 	private long lastUpdate = 0;
-	private static final int SHAKE_THRESHOLD = 600;
+	private static final int SHAKE_THRESHOLD = 60;
 	private static boolean moving = false;
 	View viewHack = new View(this);
 
