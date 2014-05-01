@@ -32,6 +32,7 @@ public class GameScreen extends Screen {
 	public static int score = 0;
 	public String scoreString = "";
 	private boolean gameOver;
+	private SensorData sensor;
 
 	Paint littleText, bigText, scoreBoard;
 
@@ -50,6 +51,7 @@ public class GameScreen extends Screen {
 		downPipe=Assets.downPipe;
 		anim = new Animation();
 		anim.addFrame(bird, 1550);
+		sensor = new SensorData();
 
 		currentSprite = anim.getImage();
 
@@ -128,7 +130,7 @@ public class GameScreen extends Screen {
 			currentSprite = anim.getImage();
 		}
 		
-		if (SensorData.isMoving()) {
+		if (sensor.isMoving()) {
 			robot.jump();
 			currentSprite = anim.getImage();
 		}
