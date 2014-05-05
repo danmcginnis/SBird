@@ -18,7 +18,6 @@ public class SensorData extends Activity implements SensorEventListener {
 	private long lastUpdate = 0;
 	private static final int SHAKE_THRESHOLD = 60;
 	private static boolean moving = false;
-	View viewHack = new View(this);
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,10 +74,6 @@ public class SensorData extends Activity implements SensorEventListener {
 				lastY = moveY;
 				lastZ = moveZ;
 			}
-			// String moveString = String.valueOf(move);
-			// TextView tv = (TextView) findViewById(R.layout.activity_main);
-			// tv.setText(moveString);
-
 		}
 	}
 
