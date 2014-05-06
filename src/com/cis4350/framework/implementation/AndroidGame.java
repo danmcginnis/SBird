@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -19,9 +20,9 @@ import com.cis4350.framework.Game;
 import com.cis4350.framework.Graphics;
 import com.cis4350.framework.Input;
 import com.cis4350.framework.Screen;
-import com.cis4350.game.SensorData;
 
-public abstract class AndroidGame extends Activity implements Game {
+
+public abstract class AndroidGame extends Activity implements Game, SensorEventListener {
 	AndroidFastRenderView renderView;
 	Graphics graphics;
 	Audio audio;
@@ -29,6 +30,8 @@ public abstract class AndroidGame extends Activity implements Game {
 	FileIO fileIO;
 	Screen screen;
 	WakeLock wakeLock;
+	Sensor moveSensor;
+	SensorManager sensorManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,13 @@ public abstract class AndroidGame extends Activity implements Game {
 		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK,
 				"MyGame");
+		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		if (sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).size() != 0) {
+			moveSensor = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER)
+					.get(0);
+			sensorManager.registerListener(this, moveSensor,
+					SensorManager.SENSOR_DELAY_GAME);
+		}
 	}
 
 	@Override
@@ -68,6 +78,9 @@ public abstract class AndroidGame extends Activity implements Game {
 		wakeLock.acquire();
 		screen.resume();
 		renderView.resume();
+		sensorManager.registerListener(this, moveSensor,
+				SensorManager.SENSOR_DELAY_FASTEST);
+		
 	}
 
 	@Override
@@ -76,7 +89,7 @@ public abstract class AndroidGame extends Activity implements Game {
 		wakeLock.release();
 		renderView.pause();
 		screen.pause();
-
+		sensorManager.unregisterListener(this);
 		if (isFinishing()) {
 			screen.dispose();
 		}

@@ -2,26 +2,18 @@ package com.cis4350.game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import android.graphics.Rect;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 
 import com.cis4350.framework.Game;
 import com.cis4350.framework.Graphics;
 import com.cis4350.framework.Image;
 import com.cis4350.framework.Input.TouchEvent;
 import com.cis4350.framework.Screen;
-import com.cis4350.framework.implementation.ShakeListener;
 import com.cis4350.framework.implementation.AccelerometerHandler;
 
-import android.app.Activity;
-import android.content.Context;
 
 public class GameScreen extends Screen {
 	enum GameState {
@@ -39,7 +31,7 @@ public class GameScreen extends Screen {
 	public static int score = 0;
 	public String scoreString = "";
 	private boolean gameOver;
-	private float deviceMovement;
+	private boolean deviceMovement;
 	 
 
 	Paint littleText, bigText, scoreBoard;
@@ -101,6 +93,7 @@ public class GameScreen extends Screen {
 	@Override
 	public void update(float deltaTime) {
 		List touchEvents = game.getInput().getTouchEvents();
+		deviceMovement = AccelerometerHandler.isMoving();
 		
 		// We have four separate update methods in this example.
 		// Depending on the state of the game, we call different update methods.
@@ -108,11 +101,11 @@ public class GameScreen extends Screen {
 		// update methods.
 
 		if (state == GameState.Ready)
-			updateReady(touchEvents);
+			updateReady(touchEvents, deviceMovement);
 		if (state == GameState.Running)
-			updateRunning(touchEvents, deltaTime);
+			updateRunning(touchEvents, deltaTime, deviceMovement);
 		if (state == GameState.GameOver)
-			updateGameOver(touchEvents);
+			updateGameOver(touchEvents, deviceMovement);
 	}
 
 	
@@ -124,7 +117,7 @@ public class GameScreen extends Screen {
 		
 	
 
-	private void updateReady(List touchEvents) {
+	private void updateReady(List touchEvents, boolean deviceMovement) {
 
 		// This example starts with a "Ready" screen.
 		// When the user touches the screen, the game begins.
@@ -135,7 +128,7 @@ public class GameScreen extends Screen {
 			state = GameState.Running;
 	}
 
-	private void updateRunning(List touchEvents, float deltaTime) {
+	private void updateRunning(List touchEvents, float deltaTime, boolean deviceMovement) {
 
 		// Handle touch event input. As most devices only have soft keyboards
 		// which
@@ -145,8 +138,8 @@ public class GameScreen extends Screen {
 		// would be the appropriate place.
 		
 		//should this just be a boolean?
-		deviceMovement = AccelerometerHandler.hasMoved();
-		if (deviceMovement > 0) {
+		
+		if (deviceMovement) {
 			robot.jump();
 			currentSprite = anim.getImage();
 		}
@@ -199,7 +192,7 @@ public class GameScreen extends Screen {
 		}
 	}
 
-	private void updateGameOver(List touchEvents) {
+	private void updateGameOver(List touchEvents, boolean deviceMovement) {
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
 			nullify();

@@ -6,6 +6,7 @@ import com.cis4350.framework.Game;
 import com.cis4350.framework.Graphics;
 import com.cis4350.framework.Screen;
 import com.cis4350.framework.Input.TouchEvent;
+import com.cis4350.framework.implementation.AccelerometerHandler;
 
 public class MainMenuScreen extends Screen {
     public MainMenuScreen(Game game) {
@@ -16,6 +17,7 @@ public class MainMenuScreen extends Screen {
     public void update(float deltaTime) {
         Graphics g = game.getGraphics();
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        boolean deviceMovement = AccelerometerHandler.isMoving();
 
         int len = touchEvents.size();
         for (int i = 0; i < len; i++) {

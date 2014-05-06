@@ -19,14 +19,14 @@ public interface Input {
 	public int getTouchX(int pointer);
 
 	public int getTouchY(int pointer);
-	
+
 	public float getAccelX();
 
-    public float getAccelY();
+	public float getAccelY();
 
-    public float getAccelZ();
-    
-    public float hasMoved();
+	public float getAccelZ();
 
 	public List<TouchEvent> getTouchEvents();
+
+	boolean isMoving();
 }

@@ -7,6 +7,7 @@ import android.os.Build.VERSION;
 import android.view.View;
 
 import com.cis4350.framework.Input;
+import com.cis4350.framework.implementation.AccelerometerHandler;
 
 public class AndroidInput implements Input {
 	TouchHandler touchHandler;
@@ -57,8 +58,8 @@ public class AndroidInput implements Input {
 	}
 
 	@Override
-	public float hasMoved() {
-		return accelHandler.hasMoved();
+	public boolean isMoving() {
+		return accelHandler.isMoving();
 	}
 
 }
