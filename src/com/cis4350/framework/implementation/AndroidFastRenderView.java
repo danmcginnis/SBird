@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class AndroidFastRenderView extends SurfaceView implements Runnable {
+
 	AndroidGame game;
 	Bitmap framebuffer;
 	Thread renderThread = null;
@@ -18,14 +19,12 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
 		this.game = game;
 		this.framebuffer = framebuffer;
 		this.holder = getHolder();
-
 	}
 
 	public void resume() {
 		running = true;
 		renderThread = new Thread(this);
 		renderThread.start();
-
 	}
 
 	public void run() {
@@ -49,7 +48,6 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
 			canvas.getClipBounds(dstRect);
 			canvas.drawBitmap(framebuffer, null, dstRect, null);
 			holder.unlockCanvasAndPost(canvas);
-
 		}
 	}
 
@@ -62,8 +60,6 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
 			} catch (InterruptedException e) {
 				// retry
 			}
-
 		}
 	}
-
 }

@@ -2,7 +2,6 @@ package com.cis4350.game;
 
 import android.graphics.Rect;
 
-
 public class Pipe {
 	private char orientation;
 	private int x = 500;
@@ -14,9 +13,9 @@ public class Pipe {
 		orientation = ori;
 		y = yVal;
 		if (orientation == 'd') {
-			boundingBox.set(x, y, x+120, y+800);
+			boundingBox.set(x, y, x + 120, y + 800);
 		} else {
-			boundingBox.set(x, y + 1000, x+120, y+1800);
+			boundingBox.set(x, y + 1000, x + 120, y + 1800);
 		}
 	}
 
@@ -25,9 +24,9 @@ public class Pipe {
 		y = yVal;
 		x = xVal;
 		if (orientation == 'd') {
-			boundingBox.set(x, y, x+120, y+800);
+			boundingBox.set(x, y, x + 120, y + 800);
 		} else {
-			boundingBox.set(x, y + 1000, x+120, y+1800);
+			boundingBox.set(x, y + 1000, x + 120, y + 1800);
 		}
 	}
 
@@ -38,11 +37,10 @@ public class Pipe {
 	public void update() {
 		x += speedX;
 		if (orientation == 'd') {
-			boundingBox.set(x, y, x+120, y+800);
+			boundingBox.set(x, y, x + 120, y + 800);
 		} else {
-			boundingBox.set(x, y + 1000, x+120, y+1800);
+			boundingBox.set(x, y + 1000, x + 120, y + 1800);
 		}
-
 	}
 
 	public char getOrientation() {

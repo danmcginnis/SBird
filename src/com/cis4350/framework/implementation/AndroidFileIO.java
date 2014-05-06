@@ -22,11 +22,11 @@ public class AndroidFileIO implements FileIO {
 	String externalStoragePath;
 
 	public AndroidFileIO(Context context) {
+
 		this.context = context;
 		this.assets = context.getAssets();
 		this.externalStoragePath = Environment.getExternalStorageDirectory()
 				.getAbsolutePath() + File.separator;
-
 	}
 
 	@Override
@@ -47,5 +47,4 @@ public class AndroidFileIO implements FileIO {
 	public SharedPreferences getSharedPref() {
 		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
-
 }

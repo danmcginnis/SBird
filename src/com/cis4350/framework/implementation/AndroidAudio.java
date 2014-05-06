@@ -13,6 +13,7 @@ import com.cis4350.framework.Music;
 import com.cis4350.framework.Sound;
 
 public class AndroidAudio implements Audio {
+
 	AssetManager assets;
 	SoundPool soundPool;
 
@@ -42,5 +43,4 @@ public class AndroidAudio implements Audio {
 			throw new RuntimeException("Couldn't load sound '" + filename + "'");
 		}
 	}
-
 }

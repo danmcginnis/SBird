@@ -3,6 +3,7 @@ package com.cis4350.framework;
 import android.graphics.Paint;
 
 public interface Graphics {
+
 	public static enum ImageFormat {
 		ARGB8888, ARGB4444, RGB565
 	}
@@ -27,5 +28,4 @@ public interface Graphics {
 	public int getHeight();
 
 	public void drawARGB(int i, int j, int k, int l);
-
 }

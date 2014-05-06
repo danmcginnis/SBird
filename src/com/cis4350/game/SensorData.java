@@ -6,8 +6,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
 public class SensorData extends Activity implements SensorEventListener {
 
@@ -80,5 +78,4 @@ public class SensorData extends Activity implements SensorEventListener {
 	public static boolean isMoving() {
 		return moving;
 	}
-
 }

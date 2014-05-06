@@ -113,7 +113,6 @@ public class AndroidMusic implements Music, OnCompletionListener,
 	@Override
 	public void seekBegin() {
 		mediaPlayer.seekTo(0);
-
 	}
 
 	@Override
@@ -122,18 +121,15 @@ public class AndroidMusic implements Music, OnCompletionListener,
 		synchronized (this) {
 			isPrepared = true;
 		}
-
 	}
 
 	@Override
 	public void onSeekComplete(MediaPlayer player) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onVideoSizeChanged(MediaPlayer player, int width, int height) {
 		// TODO Auto-generated method stub
-
 	}
 }

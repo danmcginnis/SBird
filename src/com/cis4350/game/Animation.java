@@ -8,8 +8,7 @@ public class Animation {
 
 	private ArrayList frames;
 	private int currentFrame;
-	private long animTime; // long takes up more memory than int but can
-							// hold more accurate numbers.
+	private long animTime;
 	private long totalDuration;
 
 	public Animation() {
@@ -33,12 +32,10 @@ public class Animation {
 			if (animTime >= totalDuration) {
 				animTime = animTime % totalDuration;
 				currentFrame = 0;
-
 			}
 
 			while (animTime > getFrame(currentFrame).endTime) {
 				currentFrame++;
-
 			}
 		}
 	}
@@ -65,5 +62,4 @@ public class Animation {
 			this.endTime = endTime;
 		}
 	}
-
 }

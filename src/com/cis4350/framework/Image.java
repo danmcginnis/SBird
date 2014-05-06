@@ -11,5 +11,4 @@ public interface Image {
 	public ImageFormat getFormat();
 
 	public void dispose();
-
 }

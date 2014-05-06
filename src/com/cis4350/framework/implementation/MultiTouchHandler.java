@@ -11,8 +11,8 @@ import com.cis4350.framework.Input.TouchEvent;
 import com.cis4350.framework.Pool.PoolObjectFactory;
 
 public class MultiTouchHandler implements TouchHandler {
-	private static final int MAX_TOUCHPOINTS = 10;
 
+	private static final int MAX_TOUCHPOINTS = 10;
 	boolean[] isTouched = new boolean[MAX_TOUCHPOINTS];
 	int[] touchX = new int[MAX_TOUCHPOINTS];
 	int[] touchY = new int[MAX_TOUCHPOINTS];

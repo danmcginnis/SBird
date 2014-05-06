@@ -6,42 +6,40 @@ import com.cis4350.framework.Screen;
 import com.cis4350.framework.Graphics.ImageFormat;
 
 public class SplashLoadingScreen extends Screen {
-    public SplashLoadingScreen(Game game) {
-        super(game);
-    }
+	public SplashLoadingScreen(Game game) {
+		super(game);
+	}
 
-    @Override
-    public void update(float deltaTime) {
-        Graphics g = game.getGraphics();
-        Assets.splash= g.newImage("newSplash.jpg", ImageFormat.RGB565);
+	@Override
+	public void update(float deltaTime) {
+		Graphics g = game.getGraphics();
+		Assets.splash = g.newImage("newSplash.jpg", ImageFormat.RGB565);
+		game.setScreen(new LoadingScreen(game));
 
-        
-        game.setScreen(new LoadingScreen(game));
+	}
 
-    }
+	@Override
+	public void paint(float deltaTime) {
 
-    @Override
-    public void paint(float deltaTime) {
+	}
 
-    }
+	@Override
+	public void pause() {
 
-    @Override
-    public void pause() {
+	}
 
-    }
+	@Override
+	public void resume() {
 
-    @Override
-    public void resume() {
+	}
 
-    }
+	@Override
+	public void dispose() {
 
-    @Override
-    public void dispose() {
+	}
 
-    }
+	@Override
+	public void backButton() {
 
-    @Override
-    public void backButton() {
-
-    }
+	}
 }

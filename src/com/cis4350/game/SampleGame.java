@@ -5,7 +5,6 @@ import com.cis4350.framework.implementation.AndroidGame;
 
 public class SampleGame extends AndroidGame {
 
-	public static String map;
 	boolean firstTimeCreate = true;
 
 	@Override
@@ -17,7 +16,6 @@ public class SampleGame extends AndroidGame {
 		}
 
 		return new SplashLoadingScreen(this);
-
 	}
 
 	@Override
@@ -28,15 +26,12 @@ public class SampleGame extends AndroidGame {
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		Assets.theme.play();
-
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		Assets.theme.pause();
-
 	}
 }
