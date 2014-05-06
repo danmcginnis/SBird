@@ -60,4 +60,8 @@ public class AccelerometerHandler implements SensorEventListener {
 	public void setScreenX(float screenX) {
 		this.screenX = screenX;
 	}
+	
+	public static float hasMoved() {
+		return 1;
+	}
 }

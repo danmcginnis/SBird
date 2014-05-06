@@ -25,6 +25,8 @@ public interface Input {
     public float getAccelY();
 
     public float getAccelZ();
+    
+    public float hasMoved();
 
 	public List<TouchEvent> getTouchEvents();
 }

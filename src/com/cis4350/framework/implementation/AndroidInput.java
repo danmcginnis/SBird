@@ -56,4 +56,9 @@ public class AndroidInput implements Input {
 		return accelHandler.getAccelZ();
 	}
 
+	@Override
+	public float hasMoved() {
+		return accelHandler.hasMoved();
+	}
+
 }

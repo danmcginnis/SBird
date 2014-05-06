@@ -39,6 +39,7 @@ public class GameScreen extends Screen {
 	public static int score = 0;
 	public String scoreString = "";
 	private boolean gameOver;
+	private float deviceMovement;
 	 
 
 	Paint littleText, bigText, scoreBoard;
@@ -100,7 +101,6 @@ public class GameScreen extends Screen {
 	@Override
 	public void update(float deltaTime) {
 		List touchEvents = game.getInput().getTouchEvents();
-		updateAccelRunning(deltaTime);
 		
 		// We have four separate update methods in this example.
 		// Depending on the state of the game, we call different update methods.
@@ -115,19 +115,14 @@ public class GameScreen extends Screen {
 			updateGameOver(touchEvents);
 	}
 
-	private void updateAccelRunning(float deltaTime) {
-		float accelX = AccelerometerHandler.getAccelX();
-		if (accelX > .5) {
-            ball.moveLeft(deltaTime);
-
-        }
+	
 		//sometihng like this, but for all acceleration not just in X.
 		//I think the thing to do is to take Mo's helpful class use it to 
 		//modify the framework that's shown in the tutorial so that instead
 		//of having a getAccelX method there's just a hasMoved or beenShaked method and then 
 		//somehow wedge it into updateRunning
 		
-	}
+	
 
 	private void updateReady(List touchEvents) {
 
@@ -149,8 +144,15 @@ public class GameScreen extends Screen {
 		// this
 		// would be the appropriate place.
 		
-		int len = touchEvents.size();
-		for (int i = 0; i < len; i++) {
+		//should this just be a boolean?
+		deviceMovement = AccelerometerHandler.hasMoved();
+		if (deviceMovement > 0) {
+			robot.jump();
+			currentSprite = anim.getImage();
+		}
+		
+	
+		for (int i = 0; i < touchEvents.size(); i++) {
 			robot.jump();
 			currentSprite = anim.getImage();
 		}
