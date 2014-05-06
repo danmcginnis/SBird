@@ -7,14 +7,21 @@ import java.util.Scanner;
 import android.graphics.Rect;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 
 import com.cis4350.framework.Game;
 import com.cis4350.framework.Graphics;
 import com.cis4350.framework.Image;
 import com.cis4350.framework.Input.TouchEvent;
 import com.cis4350.framework.Screen;
+import com.cis4350.framework.implementation.ShakeListener;
+import com.cis4350.framework.implementation.AccelerometerHandler;
 
 import android.app.Activity;
+import android.content.Context;
 
 public class GameScreen extends Screen {
 	enum GameState {
@@ -32,7 +39,7 @@ public class GameScreen extends Screen {
 	public static int score = 0;
 	public String scoreString = "";
 	private boolean gameOver;
-	private SensorData sensor;
+	 
 
 	Paint littleText, bigText, scoreBoard;
 
@@ -51,7 +58,10 @@ public class GameScreen extends Screen {
 		downPipe=Assets.downPipe;
 		anim = new Animation();
 		anim.addFrame(bird, 1550);
-		sensor = new SensorData();
+		//mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		//mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		//mShakeListener = new SensorData(null);
+	
 
 		currentSprite = anim.getImage();
 
@@ -90,7 +100,8 @@ public class GameScreen extends Screen {
 	@Override
 	public void update(float deltaTime) {
 		List touchEvents = game.getInput().getTouchEvents();
-
+		updateAccelRunning(deltaTime);
+		
 		// We have four separate update methods in this example.
 		// Depending on the state of the game, we call different update methods.
 		// Refer to Unit 3's code. We did a similar thing without separating the
@@ -102,6 +113,20 @@ public class GameScreen extends Screen {
 			updateRunning(touchEvents, deltaTime);
 		if (state == GameState.GameOver)
 			updateGameOver(touchEvents);
+	}
+
+	private void updateAccelRunning(float deltaTime) {
+		float accelX = AccelerometerHandler.getAccelX();
+		if (accelX > .5) {
+            ball.moveLeft(deltaTime);
+
+        }
+		//sometihng like this, but for all acceleration not just in X.
+		//I think the thing to do is to take Mo's helpful class use it to 
+		//modify the framework that's shown in the tutorial so that instead
+		//of having a getAccelX method there's just a hasMoved or beenShaked method and then 
+		//somehow wedge it into updateRunning
+		
 	}
 
 	private void updateReady(List touchEvents) {
@@ -123,18 +148,14 @@ public class GameScreen extends Screen {
 		// keyListener to be implemented here, but if you wished to add one,
 		// this
 		// would be the appropriate place.
-
+		
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
 			robot.jump();
 			currentSprite = anim.getImage();
 		}
 		
-		if (sensor.isMoving()) {
-			robot.jump();
-			currentSprite = anim.getImage();
-		}
-
+		
 		if (gameOver == true) {
 			state = GameState.GameOver;
 		}

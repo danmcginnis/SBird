@@ -10,8 +10,6 @@ package com.cis4350.game;
  *  before deploying on an actual hardware device.
  */
 
-
-
 import android.app.Activity;
 //import android.hardware.Sensor;
 //import android.hardware.SensorEvent;
@@ -26,28 +24,34 @@ import org.openintents.sensorsimulator.hardware.SensorEvent;
 import org.openintents.sensorsimulator.hardware.SensorEventListener;
 import org.openintents.sensorsimulator.hardware.SensorManagerSimulator;
 
+import com.cis4350.framework.implementation.ShakeListener;
+
 public class SensorData extends Activity implements SensorEventListener {
 
 	private SensorManagerSimulator sensorManager;
 	private Sensor moveSensor;
 	private float moveX, moveY, moveZ = 0.0f;
 	private float lastX, lastY, lastZ;
+	private float speed;
+	private long diffTime;
 	private long lastUpdate = 0;
 	private static final int SHAKE_THRESHOLD = 60;
 	private boolean moving = false;
+	private ShakeListener shakeListener;
 	View viewHack = new View(this);
-	
-	public SensorData() {
-		
+
+	public SensorData(ShakeListener shakeListener) {
+		this.shakeListener = shakeListener;
 	}
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		//for actual sensors
-		//sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		//for sensorSimulation
-		sensorManager = SensorManagerSimulator.getSystemService(this, SENSOR_SERVICE);
+		// for actual sensors
+		// sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		// for sensorSimulation
+		sensorManager = SensorManagerSimulator.getSystemService(this,
+				SENSOR_SERVICE);
 		sensorManager.connectSimulator();
 		moveSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		sensorManager.registerListener(this, moveSensor,
@@ -81,19 +85,19 @@ public class SensorData extends Activity implements SensorEventListener {
 			// we don't care about updates that happen less than 100
 			// milliseconds ago
 			if ((curTime - lastUpdate) > 100) {
-				long diffTime = (curTime - lastUpdate);
+				diffTime = (curTime - lastUpdate);
 				lastUpdate = curTime;
 
-				float speed = Math.abs(moveX + moveY + moveZ - lastX - lastY
-						- lastZ)
+				speed = Math.abs(moveX + moveY + moveZ - lastX - lastY - lastZ)
 						/ diffTime * 10000;
 
 				if (speed > SHAKE_THRESHOLD) {
-					moving = true;
+					// It's a shake! Notify the listener.
+					shakeListener.onShake();
 				}
 
 				else {
-					moving = false;
+					resetShakeDetection();
 				}
 
 				lastX = moveX;
@@ -109,6 +113,11 @@ public class SensorData extends Activity implements SensorEventListener {
 
 	public boolean isMoving() {
 		return moving;
+	}
+
+	private void resetShakeDetection() {
+		speed = 0;
+		diffTime = 0;
 	}
 
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -17,6 +19,7 @@ import com.cis4350.framework.Game;
 import com.cis4350.framework.Graphics;
 import com.cis4350.framework.Input;
 import com.cis4350.framework.Screen;
+import com.cis4350.game.SensorData;
 
 public abstract class AndroidGame extends Activity implements Game {
 	AndroidFastRenderView renderView;
@@ -51,7 +54,7 @@ public abstract class AndroidGame extends Activity implements Game {
 		fileIO = new AndroidFileIO(this);
 		audio = new AndroidAudio(this);
 		input = new AndroidInput(this, renderView, scaleX, scaleY);
-		screen = getInitScreen();
+
 		setContentView(renderView);
 
 		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
