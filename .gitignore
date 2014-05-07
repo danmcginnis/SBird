@@ -26,3 +26,4 @@ proguard/
 *.jar
 
 *.DS_Store
+assets/.DS_Store

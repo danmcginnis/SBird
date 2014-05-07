@@ -151,5 +151,4 @@ public class AndroidGraphics implements Graphics {
 	public int getHeight() {
 		return frameBuffer.getHeight();
 	}
-
 }

@@ -37,5 +37,4 @@ public class AndroidInput implements Input {
 	public List<TouchEvent> getTouchEvents() {
 		return touchHandler.getTouchEvents();
 	}
-
 }

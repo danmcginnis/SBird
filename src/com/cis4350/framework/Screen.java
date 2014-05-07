@@ -1,6 +1,7 @@
 package com.cis4350.framework;
 
 public abstract class Screen {
+
 	protected final Game game;
 
 	public Screen(Game game) {
@@ -18,5 +19,4 @@ public abstract class Screen {
 	public abstract void dispose();
 
 	public abstract void backButton();
-
 }
